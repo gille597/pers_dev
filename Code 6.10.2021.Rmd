@@ -1,0 +1,2011 @@
+---
+title: "Analyses"
+date: "6/3/2021"
+output: html_document
+---
+```{r library, include = FALSE}
+library(broom)
+library(knitr)
+library(dplyr)
+library(readr)
+library(lavaan)
+
+fffk <- read_csv("Deidentified Personality Dataset.csv")
+
+girls <- read_csv("girls_data.csv")
+
+boys <- read_csv("boys_data.csv")
+```
+
+
+# Regression Analyses of Stability
+
+## Stability by Gender
+```{r genstab}
+total <- rbind(girls, boys)
+
+#Correction for family of tests = .05 / 5 traits per year. Critical value 0.01
+
+lm.1 = lm(agr2 ~ 1 + agr1 + gender + agr1:gender, data = total)
+summary(lm.1)
+
+lm.2 = lm(agr3 ~ 1 + agr2 + gender + agr2:gender, data = total)
+summary(lm.2)
+
+lm.1 = lm(ope2 ~ 1 + ope1 + gender + ope1:gender, data = total)
+summary(lm.1)
+
+lm.2 = lm(ope3 ~ 1 + ope2 + gender + ope2:gender, data = total)
+summary(lm.2)
+
+lm.1 = lm(ext2 ~ 1 + ext1 + gender + ext1:gender, data = total)
+summary(lm.1)
+glance(lm.1)
+tidy(lm.1)
+
+lm.2 = lm(ext3 ~ 1 + ext2 + gender + ext2:gender, data = total)
+summary(lm.2)
+
+lm.1 = lm(con2 ~ 1 + con1 + gender + con1:gender, data = total)
+summary(lm.1)
+
+lm.2 = lm(con3 ~ 1 + con2 + gender + con2:gender, data = total)
+summary(lm.2)
+
+lm.1 = lm(sta2 ~ 1 + sta1 + gender + sta1:gender, data = total)
+summary(lm.1)
+
+lm.2 = lm(sta3 ~ 1 + sta2 + gender + sta2:gender, data = total)
+summary(lm.2)
+```
+
+
+## Stability by Immigration Status within Gender
+
+```{r stability}
+# Family of Tests = All boys/imm time 1 tests and all time 2 tests. Same for girls
+ # Family = 0.05 / 5 = 0.01 for critical value.
+
+lm.1 = lm(agr2 ~ 1 + agr1 + imm1 + imm2 + agr1:imm1 + agr1:imm2, data = boys)
+summary(lm.1)
+lm.2 = lm(agr3 ~ 1 + agr2 + imm1 + imm2 + agr2:imm1 + agr2:imm2, data = boys)
+summary(lm.2)
+
+lm.1 = lm(ope2 ~ 1 + ope1 + imm1 + imm2 + ope1:imm1 + ope1:imm2, data = boys)
+summary(lm.1)
+lm.2 = lm(ope3 ~ 1 + ope2 + imm1 + imm2 + ope2:imm1 + ope2:imm2, data = boys)
+summary(lm.2)
+
+lm.1 = lm(ext2 ~ 1 + ext1 + imm1 + imm2 + ext1:imm1 + ext1:imm2, data = boys)
+summary(lm.1)
+glance(lm.1)
+tidy(lm.1)
+
+lm.2 = lm(ext3 ~ 1 + ext2 + imm1 + imm2 + ext2:imm1 + ext2:imm2, data = boys)
+summary(lm.2)
+
+lm.1 = lm(con2 ~ 1 + con1 + imm1 + imm2 + con1:imm1 + con1:imm2, data = boys)
+summary(lm.1)
+
+lm.2 = lm(con3 ~ 1 + con2 + imm1 + imm2 + con2:imm1 + con2:imm2, data = boys)
+summary(lm.2)
+
+lm.1 = lm(sta2 ~ 1 + sta1 + imm1 + imm2 + sta1:imm1 + sta1:imm2, data = boys)
+summary(lm.1)
+
+lm.2 = lm(sta3 ~ 1 + sta2 + imm1 + imm2 + sta2:imm1 + sta2:imm2, data = boys)
+summary(lm.2)
+
+
+
+# Does immigrant generation moderate the stability for Girls? girls
+lm.1 = lm(agr2 ~ 1 + agr1 + imm1 + imm2 + agr1:imm1 + agr1:imm2, data = girls)
+summary(lm.1)
+
+lm.2 = lm(agr3 ~ 1 + agr2 + imm1 + imm2 + agr2:imm1 + agr2:imm2, data = girls)
+summary(lm.2)
+
+lm.1 = lm(ope2 ~ 1 + ope1 + imm1 + imm2 + ope1:imm1 + ope1:imm2, data = girls)
+summary(lm.1)
+lm.2 = lm(ope3 ~ 1 + ope2 + imm1 + imm2 + ope2:imm1 + ope2:imm2, data = girls)
+summary(lm.2)
+
+lm.1 = lm(ext2 ~ 1 + ext1 + imm1 + imm2 + ext1:imm1 + ext1:imm2, data = girls)
+summary(lm.1)
+lm.2 = lm(ext3 ~ 1 + ext2 + imm1 + imm2 + ext2:imm1 + ext2:imm2, data = girls)
+summary(lm.2)
+
+lm.1 = lm(con2 ~ 1 + con1 + imm1 + imm2 + con1:imm1 + con1:imm2, data = girls)
+summary(lm.1)
+
+lm.2 = lm(con3 ~ 1 + con2 + imm1 + imm2 + con2:imm1 + con2:imm2, data = girls)
+summary(lm.2)
+
+lm.1 = lm(sta2 ~ 1 + sta1 + imm1 + imm2 + sta1:imm1 + sta1:imm2, data = girls)
+summary(lm.1)
+# Marginal. Does not survive correction
+lm.2 = lm(sta3 ~ 1 + sta2 + imm1 + imm2 + sta2:imm1 + sta2:imm2, data = girls)
+summary(lm.2)
+```
+
+# Growth Models: Intercept only, Linear, Piecewise
+
+### Extraversion
+```{r, growthext, echo=FALSE}
+## Intercept-only model
+INT.ext <- "
+ext_g_int =~ 1*ext1 + 1*ext2 + 1*ext3
+# homoskedastic residual structure
+ext1 ~~res*ext1
+ext2 ~~res*ext2
+ext3 ~~res*ext3"
+
+## Estimate model
+INT.ext.fit <- growth(model = INT.ext, data = girls, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INT.ext.fit, fit.measures = T, standardized = T)
+
+
+LIN.ext <- "
+ext_g_int =~ 1*ext1 + 1*ext2 + 1*ext3
+ext_g_slp =~ 0*ext1 + 1*ext2 + 2*ext3
+
+# homoskedastic residual structure
+ext1 ~~res*ext1
+ext2 ~~res*ext2
+ext3 ~~res*ext3" 
+
+LIN.ext.fit <- growth(model = LIN.ext, data = girls, missing = "ML")
+summary(LIN.ext.fit, fit.measures = T, standardized = T)
+
+lavTestLRT(LIN.ext.fit, INT.ext.fit) # Adopt the linear model
+
+P.ext <- "
+ext_g_int =~ 1*ext1 + 1*ext2 + 1*ext3
+ext_g_slp1 =~ 0*ext1 + 1*ext2 + 1*ext3
+ext_g_slp2 =~ 0*ext1 + 0*ext2 + 1*ext3
+
+# homoskedastic residual structure
+ext1 ~~res*ext1
+ext2 ~~res*ext2
+ext3 ~~res*ext3
+ext_g_slp1 ~~ 0*ext_g_slp2
+ext_g_slp1 ~~ res1*ext_g_slp1  # is the variance in slope the same? 
+ext_g_slp2 ~~ res1*ext_g_slp2
+" 
+
+P.ext.fit <- growth(model = P.ext, data = girls, missing = "ML")
+summary(P.ext.fit, fit.measures = T, standardized = T)
+
+
+# Summary Table Girls Extraversion
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC")
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INT.ext.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic")),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LIN.ext.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic")),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(P.ext.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic")),3))
+kable(table_fit)
+
+
+### Boys ### 
+
+## Intercept-only model
+INTb.ext <- "
+ext_b_int =~ 1*ext1 + 1*ext2 + 1*ext3
+# homoskedastic residual structure
+ext1 ~~res*ext1
+ext2 ~~res*ext2
+ext3 ~~res*ext3"
+
+## Estimate model
+INTb.ext.fit <- growth(model = INTb.ext, data = boys, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INTb.ext.fit, fit.measures = T, standardized = T)
+
+
+LINb.ext <- "
+ext_b_int =~ 1*ext1 + 1*ext2 + 1*ext3
+ext_b_slp =~ 0*ext1 + 1*ext2 + 2*ext3
+
+# homoskedastic residual structure
+ext1 ~~res*ext1
+ext2 ~~res*ext2
+ext3 ~~res*ext3
+" 
+
+LINb.ext.fit <- growth(model = LINb.ext, data = boys, missing = "ML")
+summary(LINb.ext.fit, fit.measures = T, standardized = T)
+
+
+Pb.ext <- "
+ext_b_int =~ 1*ext1 + 1*ext2 + 1*ext3
+ext_b_slp1 =~ 0*ext1 + 1*ext2 + 1*ext3
+ext_b_slp2 =~ 0*ext1 + 0*ext2 + 1*ext3
+
+# homoskedastic residual structure
+ext1 ~~res*ext1
+ext2 ~~res*ext2
+ext3 ~~res*ext3
+ext_b_slp1 ~~ 0*ext_b_slp2
+ext_b_slp1 ~~ res1*ext_b_slp1
+ext_b_slp2 ~~ res1*ext_b_slp2
+" 
+
+Pb.ext.fit <- growth(model = Pb.ext, data = boys, missing = "ML")
+summary(Pb.ext.fit, fit.measures = T, standardized = T)
+
+# Summary Table Boys Extraversion
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC")
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INTb.ext.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic")),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LINb.ext.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic")),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(Pb.ext.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic")),3))
+kable(table_fit)
+```
+
+### Emotional Stability
+```{r, growthes, echo=FALSE}
+### Girls ####
+
+## Intercept-only model
+INT.sta <- "
+sta_g_int =~ 1*sta1 + 1*sta2 + 1*sta3
+# homoskedastic residual structure
+sta1 ~~res*sta1
+sta2 ~~res*sta2
+sta3 ~~res*sta3"
+
+## Estimate model
+INT.sta.fit <- growth(model = INT.sta, data = girls, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INT.sta.fit, fit.measures = T, standardized = T)
+
+
+LIN.sta <- "
+sta_g_int =~ 1*sta1 + 1*sta2 + 1*sta3
+sta_g_slp =~ 0*sta1 + 1*sta2 + 2*sta3
+
+# homoskedastic residual structure
+sta1 ~~res*sta1
+sta2 ~~res*sta2
+sta3 ~~res*sta3" 
+
+LIN.sta.fit <- growth(model = LIN.sta, data = girls, missing = "ML")
+summary(LIN.sta.fit, fit.measures = T, standardized = T)
+
+lavTestLRT(LIN.sta.fit, INT.sta.fit) 
+
+P.sta <- "
+sta_g_int =~ 1*sta1 + 1*sta2 + 1*sta3
+sta_g_slp1 =~ 0*sta1 + 1*sta2 + 1*sta3
+sta_g_slp2 =~ 0*sta1 + 0*sta2 + 1*sta3
+
+# homoskedastic residual structure
+sta1 ~~res*sta1
+sta2 ~~res*sta2
+sta3 ~~res*sta3
+sta_g_slp1 ~~ 0*sta_g_slp2
+sta_g_slp1 ~~ res1*sta_g_slp1  # is the variance in slope the same? 
+sta_g_slp2 ~~ res1*sta_g_slp2
+" 
+
+P.sta.fit <- growth(model = P.sta, data = girls, missing = "ML")
+summary(P.sta.fit, fit.measures = T, standardized = T)
+
+
+# Summary Table Girls Emotional Stability
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC")
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INT.sta.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic")),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LIN.sta.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic")),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(P.sta.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic")),3))
+kable(table_fit)
+
+### Boys ### 
+## Intercept-only model
+INTb.sta <- "
+sta_b_int =~ 1*sta1 + 1*sta2 + 1*sta3
+# homoskedastic residual structure
+sta1 ~~res*sta1
+sta2 ~~res*sta2
+sta3 ~~res*sta3"
+
+## Estimate model
+INTb.sta.fit <- growth(model = INTb.sta, data = boys, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INTb.sta.fit, fit.measures = T, standardized = T)
+
+
+LINb.sta <- "
+sta_b_int =~ 1*sta1 + 1*sta2 + 1*sta3
+sta_b_slp =~ 0*sta1 + 1*sta2 + 2*sta3
+
+# homoskedastic residual structure
+sta1 ~~res*sta1
+sta2 ~~res*sta2
+sta3 ~~res*sta3" 
+
+LINb.sta.fit <- growth(model = LINb.sta, data = boys, missing = "ML")
+summary(LINb.sta.fit, fit.measures = T, standardized = T)
+
+
+Pb.sta <- "
+sta_b_int =~ 1*sta1 + 1*sta2 + 1*sta3
+sta_b_slp1 =~ 0*sta1 + 1*sta2 + 1*sta3
+sta_b_slp2 =~ 0*sta1 + 0*sta2 + 1*sta3
+
+# homoskedastic residual structure
+sta1 ~~res*sta1
+sta2 ~~res*sta2
+sta3 ~~res*sta3
+sta_b_slp1 ~~ 0*sta_b_slp2
+sta_b_slp1 ~~ res1*sta_b_slp1
+sta_b_slp2 ~~ res1*sta_b_slp2
+" 
+
+Pb.sta.fit <- growth(model = Pb.sta, data = boys, missing = "ML")
+summary(Pb.sta.fit, fit.measures = T, standardized = T)
+
+
+
+# Summary Table Boys Emotional Stability
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC")
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INTb.sta.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic")),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LINb.sta.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic")),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(Pb.sta.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic")),3))
+kable(table_fit)
+
+```
+
+### Agreeableness
+```{r, growthagree, echo=FALSE}
+### Girls ####
+
+## Intercept-only model
+INT.agr <- "
+agr_g_int =~ 1*agr1 + 1*agr2 + 1*agr3
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3"
+
+## Estimate model
+INT.agr.fit <- growth(model = INT.agr, data = girls, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INT.agr.fit, fit.measures = T, standardized = T)
+
+
+LIN.agr <- "
+agr_g_int =~ 1*agr1 + 1*agr2 + 1*agr3
+agr_g_slp =~ 0*agr1 + 1*agr2 + 2*agr3
+
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3" 
+
+LIN.agr.fit <- growth(model = LIN.agr, data = girls, missing = "ML")
+summary(LIN.agr.fit, fit.measures = T, standardized = T)
+
+lavTestLRT(LIN.agr.fit, INT.agr.fit) # Adopt the linear model
+
+P.agr <- "
+agr_g_int =~ 1*agr1 + 1*agr2 + 1*agr3
+agr_g_slp1 =~ 0*agr1 + 1*agr2 + 1*agr3
+agr_g_slp2 =~ 0*agr1 + 0*agr2 + 1*agr3
+
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3
+agr_g_slp1 ~~ 0*agr_g_slp2
+agr_g_slp1 ~~ res1*agr_g_slp1  # is the variance in slope the same? 
+agr_g_slp2 ~~ res1*agr_g_slp2
+" 
+
+P.agr.fit <- growth(model = P.agr, data = girls, missing = "ML")
+summary(P.agr.fit, fit.measures = T, standardized = T)
+
+
+# Summary Table Girls Agreeableness
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INT.agr.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LIN.agr.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(P.agr.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+
+### Boys ### 
+## Intercept-only model
+## Specify model 
+INTb.agr <- "
+agr_b_int =~ 1*agr1 + 1*agr2 + 1*agr3
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3"
+
+## Estimate model
+INTb.agr.fit <- growth(model = INTb.agr, data = boys, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INTb.agr.fit, fit.measures = T, standardized = T)
+
+
+LINb.agr <- "
+agr_b_int =~ 1*agr1 + 1*agr2 + 1*agr3
+agr_b_slp =~ 0*agr1 + 1*agr2 + 2*agr3
+
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3" 
+
+LINb.agr.fit <- growth(model = LINb.agr, data = boys, missing = "ML")
+summary(LINb.agr.fit, fit.measures = T, standardized = T)
+
+
+Pb.agr <- "
+agr_b_int =~ 1*agr1 + 1*agr2 + 1*agr3
+agr_b_slp1 =~ 0*agr1 + 1*agr2 + 1*agr3
+agr_b_slp2 =~ 0*agr1 + 0*agr2 + 1*agr3
+
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3
+agr_b_slp1 ~~ 0*agr_b_slp2
+agr_b_slp1 ~~ res1*agr_b_slp1
+agr_b_slp2 ~~ res1*agr_b_slp2
+" 
+
+Pb.agr.fit <- growth(model = Pb.agr, data = boys, missing = "ML")
+summary(Pb.agr.fit, fit.measures = T, standardized = T)
+
+
+
+# Summary Table Boys Agreeableness
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC")
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INTb.agr.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic")),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LINb.agr.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic")),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(Pb.agr.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic")),3))
+kable(table_fit)
+```
+
+### Openness to Experience
+```{r, growthope, echo = FALSE}
+## Intercept-only model
+INT.ope <- "
+ope_g_int =~ 1*ope1 + 1*ope2 + 1*ope3
+# homoskedastic residual structure
+ope1 ~~res*ope1
+ope2 ~~res*ope2
+ope3 ~~res*ope3"
+
+## Estimate model
+INT.ope.fit <- growth(model = INT.ope, data = girls, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INT.ope.fit, fit.measures = T, standardized = T)
+
+
+LIN.ope <- "
+ope_g_int =~ 1*ope1 + 1*ope2 + 1*ope3
+ope_g_slp =~ 0*ope1 + 1*ope2 + 2*ope3
+
+# homoskedastic residual structure
+ope1 ~~res*ope1
+ope2 ~~res*ope2
+ope3 ~~res*ope3" 
+
+LIN.ope.fit <- growth(model = LIN.ope, data = girls, missing = "ML")
+summary(LIN.ope.fit, fit.measures = T, standardized = T)
+
+lavTestLRT(LIN.ope.fit, INT.ope.fit) # Adopt the linear model
+
+P.ope <- "
+ope_g_int =~ 1*ope1 + 1*ope2 + 1*ope3
+ope_g_slp1 =~ 0*ope1 + 1*ope2 + 1*ope3
+ope_g_slp2 =~ 0*ope1 + 0*ope2 + 1*ope3
+
+# homoskedastic residual structure
+ope1 ~~res*ope1
+ope2 ~~res*ope2
+ope3 ~~res*ope3
+ope_g_slp1 ~~ 0*ope_g_slp2
+ope_g_slp1 ~~ res1*ope_g_slp1  # is the variance in slope the same? 
+ope_g_slp2 ~~ res1*ope_g_slp2
+" 
+
+P.ope.fit <- growth(model = P.ope, data = girls, missing = "ML")
+summary(P.ope.fit, fit.measures = T, standardized = T)
+
+
+# Summary Table Girls Openness to Experience
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INT.ope.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LIN.ope.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(P.ope.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+### Boys ### 
+## Intercept-only model
+## Specify model 
+INTb.ope <- "
+ope_b_int =~ 1*ope1 + 1*ope2 + 1*ope3
+# homoskedastic residual structure
+ope1 ~~res*ope1
+ope2 ~~res*ope2
+ope3 ~~res*ope3"
+
+## Estimate model
+INTb.ope.fit <- growth(model = INTb.ope, data = boys, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INTb.ope.fit, fit.measures = T, standardized = T)
+
+
+LINb.ope <- "
+ope_b_int =~ 1*ope1 + 1*ope2 + 1*ope3
+ope_b_slp =~ 0*ope1 + 1*ope2 + 2*ope3
+
+# homoskedastic residual structure
+ope1 ~~res*ope1
+ope2 ~~res*ope2
+ope3 ~~res*ope3" 
+
+LINb.ope.fit <- growth(model = LINb.ope, data = boys, missing = "ML")
+summary(LINb.ope.fit, fit.measures = T, standardized = T)
+
+
+Pb.ope <- "
+ope_b_int =~ 1*ope1 + 1*ope2 + 1*ope3
+ope_b_slp1 =~ 0*ope1 + 1*ope2 + 1*ope3
+ope_b_slp2 =~ 0*ope1 + 0*ope2 + 1*ope3
+
+# homoskedastic residual structure
+ope1 ~~res*ope1
+ope2 ~~res*ope2
+ope3 ~~res*ope3
+ope_b_slp1 ~~ 0*ope_b_slp2
+ope_b_slp1 ~~ res1*ope_b_slp1
+ope_b_slp2 ~~ res1*ope_b_slp2
+" 
+
+Pb.ope.fit <- growth(model = Pb.ope, data = boys, missing = "ML")
+summary(Pb.ope.fit, fit.measures = T, standardized = T)
+
+
+
+# Summary Table Boys Openness to Experience
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INTb.ope.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LINb.ope.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(Pb.ope.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+```
+
+### Conscientiousness
+```{r, growthcon, echo = FALSE}
+## GIRLS 
+## Intercept-only model
+INT.con <- "
+con_g_int =~ 1*con1 + 1*con2 + 1*con3
+# homoskedastic residual structure
+con1 ~~res*con1
+con2 ~~res*con2
+con3 ~~res*con3"
+
+## Estimate model
+INT.con.fit <- growth(model = INT.con, data = girls, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INT.con.fit, fit.measures = T, standardized = T)
+
+
+LIN.con <- "
+con_g_int =~ 1*con1 + 1*con2 + 1*con3
+con_g_slp =~ 0*con1 + 1*con2 + 2*con3
+
+# homoskedastic residual structure
+con1 ~~res*con1
+con2 ~~res*con2
+con3 ~~res*con3" 
+
+LIN.con.fit <- growth(model = LIN.con, data = girls, missing = "ML")
+summary(LIN.con.fit, fit.measures = T, standardized = T)
+
+lavTestLRT(LIN.con.fit, INT.con.fit) # Adopt the linear model
+
+P.con <- "
+con_g_int =~ 1*con1 + 1*con2 + 1*con3
+con_g_slp1 =~ 0*con1 + 1*con2 + 1*con3
+con_g_slp2 =~ 0*con1 + 0*con2 + 1*con3
+
+# homoskedastic residual structure
+con1 ~~res*con1
+con2 ~~res*con2
+con3 ~~res*con3
+con_g_slp1 ~~ 0*con_g_slp2
+con_g_slp1 ~~ res1*con_g_slp1  # is the variance in slcon the same? 
+con_g_slp2 ~~ res1*con_g_slp2
+" 
+
+P.con.fit <- growth(model = P.con, data = girls, missing = "ML")
+summary(P.con.fit, fit.measures = T, standardized = T)
+
+
+# Summary Table Girls Conscientiousness
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INT.con.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LIN.con.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(P.con.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+
+### Boys ### 
+## Intercept-only model
+## Specify model 
+INTb.con <- "
+con_b_int =~ 1*con1 + 1*con2 + 1*con3
+# homoskedastic residual structure
+con1 ~~res*con1
+con2 ~~res*con2
+con3 ~~res*con3"
+
+## Estimate model
+INTb.con.fit <- growth(model = INTb.con, data = boys, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INTb.con.fit, fit.measures = T, standardized = T)
+
+
+LINb.con <- "
+con_b_int =~ 1*con1 + 1*con2 + 1*con3
+con_b_slp =~ 0*con1 + 1*con2 + 2*con3
+
+# homoskedastic residual structure
+con1 ~~res*con1
+con2 ~~res*con2
+con3 ~~res*con3" 
+
+LINb.con.fit <- growth(model = LINb.con, data = boys, missing = "ML")
+summary(LINb.con.fit, fit.measures = T, standardized = T)
+
+
+Pb.con <- "
+con_b_int =~ 1*con1 + 1*con2 + 1*con3
+con_b_slp1 =~ 0*con1 + 1*con2 + 1*con3
+con_b_slp2 =~ 0*con1 + 0*con2 + 1*con3
+
+# homoskedastic residual structure
+con1 ~~res*con1
+con2 ~~res*con2
+con3 ~~res*con3
+con_b_slp1 ~~ 0*con_b_slp2
+con_b_slp1 ~~ res1*con_b_slp1
+con_b_slp2 ~~ res1*con_b_slp2
+" 
+
+Pb.con.fit <- growth(model = Pb.con, data = boys, missing = "ML")
+summary(Pb.con.fit, fit.measures = T, standardized = T)
+
+
+
+# Summary Table Boys Conscientiousness
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures (INTb.con.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures  (LINb.con.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures (Pb.con.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+```
+
+# Growth Models Including Immigrant Generation
+
+### Extraversion
+```{r}
+######## Extraversion ###########
+### Girls ####
+P.ext <- "
+ext_g_int =~ 1*ext1 + 1*ext2 + 1*ext3
+ext_g_slp1 =~ 0*ext1 + 1*ext2 + 1*ext3
+ext_g_slp2 =~ 0*ext1 + 0*ext2 + 1*ext3
+
+# homoskedastic residual structure
+ext1 ~~res*ext1
+ext2 ~~res*ext2
+ext3 ~~res*ext3
+ext_g_slp1 ~~ 0*ext_g_slp2
+ext_g_slp1 ~~ res1*ext_g_slp1  # is the variance in slope the same? 
+ext_g_slp2 ~~ res1*ext_g_slp2
+" 
+
+P.ext.fit <- growth(model = P.ext, data = girls, missing = "ML")
+summary(P.ext.fit, fit.measures = T, standardized = T)
+
+I.ext <- "
+ext_g_int =~ 1*ext1 + 1*ext2 + 1*ext3
+ext_g_slp1 =~ 0*ext1 + 1*ext2 + 1*ext3
+ext_g_slp2 =~ 0*ext1 + 0*ext2 + 1*ext3
+ext_g_int ~ imm1 + imm2
+
+# homoskedastic residual structure
+ext1 ~~res*ext1
+ext2 ~~res*ext2
+ext3 ~~res*ext3
+ext_g_slp1 ~~ 0*ext_g_slp2
+ext_g_slp1 ~~ res1*ext_g_slp1  # is the variance in slope the same? 
+ext_g_slp2 ~~ res1*ext_g_slp2
+" 
+I.ext.fit <- growth(model = I.ext, data = girls, missing = "ML")
+summary(I.ext.fit, fit.measures = T, standardized = T)
+
+S.ext <- "
+ext_g_int =~ 1*ext1 + 1*ext2 + 1*ext3
+ext_g_slp1 =~ 0*ext1 + 1*ext2 + 1*ext3
+ext_g_slp2 =~ 0*ext1 + 0*ext2 + 1*ext3
+ext_g_int ~ imm1 + imm2
+ext_g_slp1 ~ imm1 + imm2
+ext_g_slp2  ~ imm1 + imm2
+
+# homoskedastic residual structure
+ext1 ~~res*ext1
+ext2 ~~res*ext2
+ext3 ~~res*ext3
+ext_g_slp1 ~~ 0*ext_g_slp2
+ext_g_slp1 ~~ res1*ext_g_slp1  # is the variance in slope the same? 
+ext_g_slp2 ~~ res1*ext_g_slp2
+" 
+S.ext.fit <- growth(model = S.ext, data = girls, missing = "ML")
+summary(S.ext.fit, fit.measures = T, standardized = T)
+
+# Summary Table Girls Extraversion
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Piecewise Growth", round(fitmeasures(P.ext.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Imm Included", round(fitmeasures(I.ext.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Imm Slope", round(fitmeasures(S.ext.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+
+### Boys ### 
+
+Pb.ext <- "
+ext_b_int =~ 1*ext1 + 1*ext2 + 1*ext3
+ext_b_slp1 =~ 0*ext1 + 1*ext2 + 1*ext3
+ext_b_slp2 =~ 0*ext1 + 0*ext2 + 1*ext3
+
+# homoskedastic residual structure
+ext1 ~~res*ext1
+ext2 ~~res*ext2
+ext3 ~~res*ext3
+ext_b_slp1 ~~ 0*ext_b_slp2
+ext_b_slp1 ~~ res1*ext_b_slp1
+ext_b_slp2 ~~ res1*ext_b_slp2
+" 
+
+Pb.ext.fit <- growth(model = Pb.ext, data = boys, missing = "ML")
+summary(Pb.ext.fit, fit.measures = T, standardized = T)
+
+Ib.ext <- "
+ext_b_int =~ 1*ext1 + 1*ext2 + 1*ext3
+ext_b_slp1 =~ 0*ext1 + 1*ext2 + 1*ext3
+ext_b_slp2 =~ 0*ext1 + 0*ext2 + 1*ext3
+ext_b_int ~ imm1 + imm2
+
+# homoskedastic residual structure
+ext1 ~~res*ext1
+ext2 ~~res*ext2
+ext3 ~~res*ext3
+ext_b_slp1 ~~ 0*ext_b_slp2
+ext_b_slp1 ~~ res1*ext_b_slp1
+ext_b_slp2 ~~ res1*ext_b_slp2
+" 
+
+Ib.ext.fit <- growth(model = I.ext, data = boys, missing = "ML")
+summary(Ib.ext.fit, fit.measures = T, standardized = T)
+
+Sb.ext <- "
+ext_b_int =~ 1*ext1 + 1*ext2 + 1*ext3
+ext_b_slp1 =~ 0*ext1 + 1*ext2 + 1*ext3
+ext_b_slp2 =~ 0*ext1 + 0*ext2 + 1*ext3
+ext_b_int ~ imm1 + imm2
+ext_b_slp1 ~ imm1 + imm2
+ext_b_slp2 ~ imm1 + imm2
+# homoskedastic residual structure
+ext1 ~~res*ext1
+ext2 ~~res*ext2
+ext3 ~~res*ext3
+ext_b_slp1 ~~ 0*ext_b_slp2
+ext_b_slp1 ~~ res1*ext_b_slp1
+ext_b_slp2 ~~ res1*ext_b_slp2
+" 
+
+Sb.ext.fit <- growth(model = S.ext, data = boys, missing = "ML")
+summary(Sb.ext.fit, fit.measures = T, standardized = T)
+
+# Summary Table Boys Extraversion
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Piecewise Growth", round(fitmeasures(Pb.ext.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Imm Included", round(fitmeasures(Ib.ext.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Imm Slope", round(fitmeasures(Sb.ext.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+```
+
+### Emotional Stability
+
+```{r}
+### Girls ####
+
+P.sta <- "
+sta_g_int =~ 1*sta1 + 1*sta2 + 1*sta3
+sta_g_slp1 =~ 0*sta1 + 1*sta2 + 1*sta3
+sta_g_slp2 =~ 0*sta1 + 0*sta2 + 1*sta3
+
+# homoskedastic residual structure
+sta1 ~~res*sta1
+sta2 ~~res*sta2
+sta3 ~~res*sta3
+sta_g_slp1 ~~ 0*sta_g_slp2
+sta_g_slp1 ~~ res1*sta_g_slp1  # is the variance in slope the same? 
+sta_g_slp2 ~~ res1*sta_g_slp2
+" 
+
+P.sta.fit <- growth(model = P.sta, data = girls, missing = "ML")
+summary(P.sta.fit, fit.measures = T, standardized = T)
+
+I.sta <- "
+sta_g_int =~ 1*sta1 + 1*sta2 + 1*sta3
+sta_g_slp1 =~ 0*sta1 + 1*sta2 + 1*sta3
+sta_g_slp2 =~ 0*sta1 + 0*sta2 + 1*sta3
+sta_g_int ~ imm1 + imm2
+
+# homoskedastic residual structure
+sta1 ~~res*sta1
+sta2 ~~res*sta2
+sta3 ~~res*sta3
+sta_g_slp1 ~~ 0*sta_g_slp2
+sta_g_slp1 ~~ res1*sta_g_slp1  # is the variance in slope the same? 
+sta_g_slp2 ~~ res1*sta_g_slp2
+" 
+
+I.sta.fit <- growth(model = I.sta, data = girls, missing = "ML")
+summary(I.sta.fit, fit.measures = T, standardized = T)
+
+S.sta <- "
+sta_g_int =~ 1*sta1 + 1*sta2 + 1*sta3
+sta_g_slp1 =~ 0*sta1 + 1*sta2 + 1*sta3
+sta_g_slp2 =~ 0*sta1 + 0*sta2 + 1*sta3
+sta_g_int ~ imm1 + imm2
+sta_g_slp1 ~ imm1 + imm2
+sta_g_slp2  ~ imm1 + imm2
+
+# homoskedastic residual structure
+sta1 ~~res*sta1
+sta2 ~~res*sta2
+sta3 ~~res*sta3
+sta_g_slp1 ~~ 0*sta_g_slp2
+sta_g_slp1 ~~ res1*sta_g_slp1  # is the variance in slope the same? 
+sta_g_slp2 ~~ res1*sta_g_slp2
+" 
+
+S.sta.fit <- growth(model = S.sta, data = girls, missing = "ML")
+summary(S.sta.fit, fit.measures = T, standardized = T)
+
+# Summary Table Girls Emotional Stability
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Piecewise Growth", round(fitmeasures(P.sta.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Imm Included", round(fitmeasures(I.sta.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Imm Included", round(fitmeasures(S.sta.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+### Boys ### 
+Pb.sta <- "
+sta_b_int =~ 1*sta1 + 1*sta2 + 1*sta3
+sta_b_slp1 =~ 0*sta1 + 1*sta2 + 1*sta3
+sta_b_slp2 =~ 0*sta1 + 0*sta2 + 1*sta3
+
+# homoskedastic residual structure
+sta1 ~~res*sta1
+sta2 ~~res*sta2
+sta3 ~~res*sta3
+sta_b_slp1 ~~ 0*sta_b_slp2
+sta_b_slp1 ~~ res1*sta_b_slp1
+sta_b_slp2 ~~ res1*sta_b_slp2
+" 
+
+Pb.sta.fit <- growth(model = Pb.sta, data = boys, missing = "ML")
+summary(Pb.sta.fit, fit.measures = T, standardized = T)
+
+Ib.sta <- "
+sta_b_int =~ 1*sta1 + 1*sta2 + 1*sta3
+sta_b_slp1 =~ 0*sta1 + 1*sta2 + 1*sta3
+sta_b_slp2 =~ 0*sta1 + 0*sta2 + 1*sta3
+sta_b_int ~ imm1 + imm2
+
+# homoskedastic residual structure
+sta1 ~~res*sta1
+sta2 ~~res*sta2
+sta3 ~~res*sta3
+sta_b_slp1 ~~ 0*sta_b_slp2
+sta_b_slp1 ~~ res1*sta_b_slp1
+sta_b_slp2 ~~ res1*sta_b_slp2
+" 
+
+Ib.sta.fit <- growth(model = Ib.sta, data = boys, missing = "ML")
+summary(Ib.sta.fit, fit.measures = T, standardized = T)
+
+Sb.sta <- "
+sta_b_int =~ 1*sta1 + 1*sta2 + 1*sta3
+sta_b_slp1 =~ 0*sta1 + 1*sta2 + 1*sta3
+sta_b_slp2 =~ 0*sta1 + 0*sta2 + 1*sta3
+sta_b_int ~ imm1 + imm2
+sta_b_slp1 ~ imm1 + imm2
+sta_b_slp2  ~ imm1 + imm2
+
+# homoskedastic residual structure
+sta1 ~~res*sta1
+sta2 ~~res*sta2
+sta3 ~~res*sta3
+sta_b_slp1 ~~ 0*sta_b_slp2
+sta_b_slp1 ~~ res1*sta_b_slp1
+sta_b_slp2 ~~ res1*sta_b_slp2
+" 
+
+Sb.sta.fit <- growth(model = Sb.sta, data = boys, missing = "ML")
+summary(Sb.sta.fit, fit.measures = T, standardized = T)
+
+# Summary Table Boys Emotional Stability
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Piecewise Growth", round(fitmeasures(Pb.sta.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Imm Included", round(fitmeasures(Ib.sta.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Imm Slope", round(fitmeasures(Sb.sta.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+```
+
+### Agreeableness
+
+```{r}
+### Girls ####
+LIN.agr <- "
+agr_g_int =~ 1*agr1 + 1*agr2 + 1*agr3
+agr_g_slp =~ 0*agr1 + 1*agr2 + 2*agr3
+
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3" 
+
+LIN.agr.fit <- growth(model = LIN.agr, data = girls, missing = "ML")
+summary(LIN.agr.fit, fit.measures = T, standardized = T)
+
+
+P.agr <- "
+agr_g_int =~ 1*agr1 + 1*agr2 + 1*agr3
+agr_g_slp1 =~ 0*agr1 + 1*agr2 + 1*agr3
+agr_g_slp2 =~ 0*agr1 + 0*agr2 + 1*agr3
+
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3
+agr_g_slp1 ~~ 0*agr_g_slp2
+agr_g_slp1 ~~ res1*agr_g_slp1  # is the variance in slope the same? 
+agr_g_slp2 ~~ res1*agr_g_slp2
+" 
+
+P.agr.fit <- growth(model = P.agr, data = girls, missing = "ML")
+summary(P.agr.fit, fit.measures = T, standardized = T)
+
+
+I.agr <- "
+agr_g_int =~ 1*agr1 + 1*agr2 + 1*agr3
+agr_g_slp =~ 0*agr1 + 1*agr2 + 2*agr3
+agr_g_int ~ imm1 + imm2
+
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3" 
+
+I.agr.fit <- growth(model = I.agr, data = girls, missing = "ML")
+summary(I.agr.fit, fit.measures = T, standardized = T)
+
+S.agr <- "
+agr_g_int =~ 1*agr1 + 1*agr2 + 1*agr3
+agr_g_slp =~ 0*agr1 + 1*agr2 + 2*agr3
+agr_g_int ~ imm1 + imm2
+agr_g_slp ~ imm1 + imm2
+
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3
+" 
+
+S.agr.fit <- growth(model = S.agr, data = girls, missing = "ML")
+summary(S.agr.fit, fit.measures = T, standardized = T)
+
+# Summary Table Girls Agreeableness
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Linear Growth", round(fitmeasures(LIN.agr.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Imm Included", round(fitmeasures(I.agr.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Imm Slope", round(fitmeasures(S.agr.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+
+
+### Boys ### 
+Pb.agr <- "
+agr_b_int =~ 1*agr1 + 1*agr2 + 1*agr3
+agr_b_slp1 =~ 0*agr1 + 1*agr2 + 1*agr3
+agr_b_slp2 =~ 0*agr1 + 0*agr2 + 1*agr3
+
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3
+agr_b_slp1 ~~ 0*agr_b_slp2
+agr_b_slp1 ~~ res1*agr_b_slp1
+agr_b_slp2 ~~ res1*agr_b_slp2
+" 
+
+Pb.agr.fit <- growth(model = Pb.agr, data = boys, missing = "ML")
+summary(Pb.agr.fit, fit.measures = T, standardized = T)
+
+Ib.agr <- "
+agr_b_int =~ 1*agr1 + 1*agr2 + 1*agr3
+agr_b_slp1 =~ 0*agr1 + 1*agr2 + 1*agr3
+agr_b_slp2 =~ 0*agr1 + 0*agr2 + 1*agr3
+agr_b_int ~ imm1 + imm2
+
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3
+agr_b_slp1 ~~ 0*agr_b_slp2
+agr_b_slp1 ~~ res1*agr_b_slp1
+agr_b_slp2 ~~ res1*agr_b_slp2
+" 
+
+Ib.agr.fit <- growth(model = Ib.agr, data = boys, missing = "ML")
+summary(Ib.agr.fit, fit.measures = T, standardized = T)
+
+Sb.agr <- "
+agr_b_int =~ 1*agr1 + 1*agr2 + 1*agr3
+agr_b_slp1 =~ 0*agr1 + 1*agr2 + 1*agr3
+agr_b_slp2 =~ 0*agr1 + 0*agr2 + 1*agr3
+agr_b_int ~ imm1 + imm2
+agr_b_slp1 ~ imm1 + imm2
+agr_b_slp2  ~ imm1 + imm2
+
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3
+agr_b_slp1 ~~ 0*agr_b_slp2
+agr_b_slp1 ~~ res1*agr_b_slp1
+agr_b_slp2 ~~ res1*agr_b_slp2
+" 
+
+Sb.agr.fit <- growth(model = Sb.agr, data = boys, missing = "ML")
+summary(Sb.agr.fit, fit.measures = T, standardized = T)
+
+
+# Summary Table Boys Agreeableness
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Piecewise Growth", round(fitmeasures(Pb.agr.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Imm Included", round(fitmeasures(Ib.agr.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Imm Slope", round(fitmeasures(Sb.agr.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+
+```
+
+### Openness to Experience
+
+```{r}
+
+LIN.ope <- "
+ope_g_int =~ 1*ope1 + 1*ope2 + 1*ope3
+ope_g_slp =~ 0*ope1 + 1*ope2 + 2*ope3
+
+# homoskedastic residual structure
+ope1 ~~res*ope1
+ope2 ~~res*ope2
+ope3 ~~res*ope3
+" 
+
+LIN.ope.fit <- growth(model = LIN.ope, data = girls, missing = "ML")
+summary(LIN.ope.fit, fit.measures = T, standardized = T)
+
+I.ope <- "
+ope_g_int =~ 1*ope1 + 1*ope2 + 1*ope3
+ope_g_slp =~ 0*ope1 + 1*ope2 + 2*ope3
+ope_g_int ~ imm1 + imm2
+
+# homoskedastic residual structure
+ope1 ~~res*ope1
+ope2 ~~res*ope2
+ope3 ~~res*ope3
+" 
+
+I.ope.fit <- growth(model = I.ope, data = girls, missing = "ML")
+summary(I.ope.fit, fit.measures = T, standardized = T)
+
+S.ope <- "
+ope_g_int =~ 1*ope1 + 1*ope2 + 1*ope3
+ope_g_slp =~ 0*ope1 + 1*ope2 + 2*ope3
+ope_g_int ~ imm1 + imm2
+ope_g_slp ~ imm1 + imm2
+
+# homoskedastic residual structure
+ope1 ~~res*ope1
+ope2 ~~res*ope2
+ope3 ~~res*ope3
+" 
+
+S.ope.fit <- growth(model = S.ope, data = girls, missing = "ML")
+summary(S.ope.fit, fit.measures = T, standardized = T)
+
+# Summary Table Girls Openness to Experience
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Piecewise Growth", round(fitmeasures(P.ope.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Imm Included", round(fitmeasures(I.ope.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Imm Slope", round(fitmeasures(S.ope.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+### Boys ### 
+Pb.ope <- "
+ope_b_int =~ 1*ope1 + 1*ope2 + 1*ope3
+ope_b_slp1 =~ 0*ope1 + 1*ope2 + 1*ope3
+ope_b_slp2 =~ 0*ope1 + 0*ope2 + 1*ope3
+
+# homoskedastic residual structure
+ope1 ~~res*ope1
+ope2 ~~res*ope2
+ope3 ~~res*ope3
+ope_b_slp1 ~~ 0*ope_b_slp2
+ope_b_slp1 ~~ res1*ope_b_slp1
+ope_b_slp2 ~~ res1*ope_b_slp2
+" 
+
+Pb.ope.fit <- growth(model = Pb.ope, data = boys, missing = "ML")
+summary(Pb.ope.fit, fit.measures = T, standardized = T)
+
+Ib.ope <- "
+ope_b_int =~ 1*ope1 + 1*ope2 + 1*ope3
+ope_b_slp1 =~ 0*ope1 + 1*ope2 + 1*ope3
+ope_b_slp2 =~ 0*ope1 + 0*ope2 + 1*ope3
+ope_b_int ~ imm1 + imm2
+
+# homoskedastic residual structure
+ope1 ~~res*ope1
+ope2 ~~res*ope2
+ope3 ~~res*ope3
+ope_b_slp1 ~~ 0*ope_b_slp2
+ope_b_slp1 ~~ res1*ope_b_slp1
+ope_b_slp2 ~~ res1*ope_b_slp2
+" 
+
+Ib.ope.fit <- growth(model = Ib.ope, data = boys, missing = "ML")
+summary(Ib.ope.fit, fit.measures = T, standardized = T)
+
+Sb.ope <- "
+ope_b_int =~ 1*ope1 + 1*ope2 + 1*ope3
+ope_b_slp1 =~ 0*ope1 + 1*ope2 + 1*ope3
+ope_b_slp2 =~ 0*ope1 + 0*ope2 + 1*ope3
+ope_b_int ~ imm1 + imm2
+ope_b_slp1 ~ imm1 + imm2
+ope_b_slp2 ~ imm1 + imm2
+
+# homoskedastic residual structure
+ope1 ~~res*ope1
+ope2 ~~res*ope2
+ope3 ~~res*ope3
+ope_b_slp1 ~~ 0*ope_b_slp2
+ope_b_slp1 ~~ res1*ope_b_slp1
+ope_b_slp2 ~~ res1*ope_b_slp2
+" 
+
+Sb.ope.fit <- growth(model = Sb.ope, data = boys, missing = "ML")
+summary(Sb.ope.fit, fit.measures = T, standardized = T)
+
+# Summary Table Boys Openness to Experience
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Piecewise Growth", round(fitmeasures(Pb.ope.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Imm Included", round(fitmeasures(Ib.ope.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Imm Slope", round(fitmeasures(Sb.ope.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+```
+
+### Conscientiousness
+
+```{r}
+
+P.con <- "
+con_g_int =~ 1*con1 + 1*con2 + 1*con3
+con_g_slp1 =~ 0*con1 + 1*con2 + 1*con3
+con_g_slp2 =~ 0*con1 + 0*con2 + 1*con3
+
+# homoskedastic residual structure
+con1 ~~res*con1
+con2 ~~res*con2
+con3 ~~res*con3
+con_g_slp1 ~~ 0*con_g_slp2
+con_g_slp1 ~~ res1*con_g_slp1  # is the variance in slcon the same? 
+con_g_slp2 ~~ res1*con_g_slp2
+" 
+
+P.con.fit <- growth(model = P.con, data = girls, missing = "ML")
+summary(P.con.fit, fit.measures = T, standardized = T)
+
+I.con <- "
+con_g_int =~ 1*con1 + 1*con2 + 1*con3
+con_g_slp1 =~ 0*con1 + 1*con2 + 1*con3
+con_g_slp2 =~ 0*con1 + 0*con2 + 1*con3
+con_g_int ~ imm1 + imm2
+
+# homoskedastic residual structure
+con1 ~~res*con1
+con2 ~~res*con2
+con3 ~~res*con3
+con_g_slp1 ~~ 0*con_g_slp2
+con_g_slp1 ~~ res1*con_g_slp1  # is the variance in slcon the same? 
+con_g_slp2 ~~ res1*con_g_slp2
+" 
+
+I.con.fit <- growth(model = I.con, data = girls, missing = "ML")
+summary(I.con.fit, fit.measures = T, standardized = T)
+
+S.con <- "
+con_g_int =~ 1*con1 + 1*con2 + 1*con3
+con_g_slp1 =~ 0*con1 + 1*con2 + 1*con3
+con_g_slp2 =~ 0*con1 + 0*con2 + 1*con3
+con_g_int ~ imm1 + imm2
+con_g_slp1 ~ imm1 + imm2
+con_g_slp2 ~ imm1 + imm2
+
+# homoskedastic residual structure
+con1 ~~res*con1
+con2 ~~res*con2
+con3 ~~res*con3
+con_g_slp1 ~~ 0*con_g_slp2
+con_g_slp1 ~~ res1*con_g_slp1  # is the variance in slcon the same? 
+con_g_slp2 ~~ res1*con_g_slp2
+" 
+
+S.con.fit <- growth(model = S.con, data = girls, missing = "ML")
+summary(S.con.fit, fit.measures = T, standardized = T)
+
+# Summary Table Girls Conscientiousness
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Piecewise Growth", round(fitmeasures(P.con.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Imm Included", round(fitmeasures(I.con.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Imm Slope", round(fitmeasures(S.con.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+
+### Boys ### 
+
+Pb.con <- "
+con_b_int =~ 1*con1 + 1*con2 + 1*con3
+con_b_slp1 =~ 0*con1 + 1*con2 + 1*con3
+con_b_slp2 =~ 0*con1 + 0*con2 + 1*con3
+
+# homoskedastic residual structure
+con1 ~~res*con1
+con2 ~~res*con2
+con3 ~~res*con3
+con_b_slp1 ~~ 0*con_b_slp2
+con_b_slp1 ~~ res1*con_b_slp1
+con_b_slp2 ~~ res1*con_b_slp2
+" 
+
+Pb.con.fit <- growth(model = Pb.con, data = boys, missing = "ML")
+summary(Pb.con.fit, fit.measures = T, standardized = T)
+
+Ib.con <- "
+con_b_int =~ 1*con1 + 1*con2 + 1*con3
+con_b_slp1 =~ 0*con1 + 1*con2 + 1*con3
+con_b_slp2 =~ 0*con1 + 0*con2 + 1*con3
+con_b_int ~ imm1 + imm2
+
+# homoskedastic residual structure
+con1 ~~res*con1
+con2 ~~res*con2
+con3 ~~res*con3
+con_b_slp1 ~~ 0*con_b_slp2
+con_b_slp1 ~~ res1*con_b_slp1
+con_b_slp2 ~~ res1*con_b_slp2
+" 
+
+Ib.con.fit <- growth(model = Ib.con, data = boys, missing = "ML")
+summary(Ib.con.fit, fit.measures = T, standardized = T)
+
+Sb.con <- "
+con_b_int =~ 1*con1 + 1*con2 + 1*con3
+con_b_slp1 =~ 0*con1 + 1*con2 + 1*con3
+con_b_slp2 =~ 0*con1 + 0*con2 + 1*con3
+con_b_int ~ imm1 + imm2
+con_b_slp1 ~ imm1 + imm2
+con_b_slp2 ~ imm1 + imm2
+
+# homoskedastic residual structure
+con1 ~~res*con1
+con2 ~~res*con2
+con3 ~~res*con3
+con_b_slp1 ~~ 0*con_b_slp2
+con_b_slp1 ~~ res1*con_b_slp1
+con_b_slp2 ~~ res1*con_b_slp2
+" 
+
+Sb.con.fit <- growth(model = Sb.con, data = boys, missing = "ML")
+summary(Sb.con.fit, fit.measures = T, standardized = T)
+
+# Summary Table Boys Conscientiousness
+table_fit <- matrix(NA, nrow = 3, ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Piecewise Growth", round(fitmeasures(Pb.con.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Imm Included", round(fitmeasures(Ib.con.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Imm Slope", round(fitmeasures(Sb.con.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+```
+
+
+
+# Growth Models with Manifest Variables
+```{r}
+library(car)
+fffk$e8.r1 = recode(fffk$e8.w1, '1 = 5; 2 = 4; 4=2; 5=1')
+fffk$e8.r2 = recode(fffk$e8.w2, '1 = 5; 2 = 4; 4=2; 5=1')
+fffk$e8.r3 = recode(fffk$e8.w3, '1 = 5; 2 = 4; 4=2; 5=1')
+
+fffk = fffk %>% rowwise() %>%
+  mutate (agr1 = mean(c(a1.w1, a2.w1, a3.w1, a4.w1, a5.w1, a6.w1, a7.w1, a8.w1)),
+          agr2 = mean(c(a1.w2, a2.w2, a3.w2, a4.w2, a5.w2, a6.w2, a7.w2, a8.w2)),
+          agr3 = mean(c(a1.w3, a2.w3, a3.w3, a4.w3, a5.w3, a6.w3, a7.w3, a8.w3)),
+          na.rm = T)
+
+
+fffk = fffk %>% rowwise() %>%
+  mutate (con1 = mean(c(c1.w1, c2.w1, c3.w1, c4.w1, c5.w1, c6.w1, c7.w1, c8.w1)),
+          con2 = mean(c(c1.w2, c2.w2, c3.w2, c4.w2, c5.w2, c6.w2, c7.w2, c8.w2)),
+          con3 = mean(c(c1.w3, c2.w3, c3.w3, c4.w3, c5.w3, c6.w3, c7.w3, c8.w3)),
+          na.rm = T)
+
+
+fffk = fffk %>% rowwise() %>%
+  mutate (ope1 = mean(c(o1.w1, o2.w1, o3.w1, o4.w1, o5.w1, o6.w1, o7.w1, o8.w1)),
+          ope2 = mean(c(o1.w2, o2.w2, o3.w2, o4.w2, o5.w2, o6.w2, o7.w2, o8.w2)),
+          ope3 = mean(c(o1.w3, o2.w3, o3.w3, o4.w3, o5.w3, o6.w3, o7.w3, o8.w3)),
+          na.rm = T)
+
+
+fffk = fffk %>% rowwise() %>%
+  mutate (ext1 = mean(c(e1.w1, e2.w1, e3.w1, e4.w1, e5.w1, e6.w1, e7.w1, e8.r1)),
+          ext2 = mean(c(e1.w2, e2.w2, e3.w2, e4.w2, e5.w2, e6.w2, e7.w2, e8.r2)),
+          ext3 = mean(c(e1.w3, e2.w3, e3.w3, e4.w3, e5.w3, e6.w3, e7.w3, e8.r3)),
+          na.rm = T)
+fffk$ext1
+
+
+fffk = fffk %>% rowwise() %>%
+  mutate (sta1 = mean(c(s1.w1, s2.w1, s3.w1, s4.w1, s5.w1, s6.w1, s7.w1, s8.w1)),
+          sta2 = mean(c(s1.w2, s2.w2, s3.w2, s4.w2, s5.w2, s6.w2, s7.w2, s8.w2)),
+          sta3 = mean(c(s1.w3, s2.w3, s3.w3, s4.w3, s5.w3, s6.w3, s7.w3, s8.w3)),
+          na.rm = T)
+
+fem = fffk %>% dplyr::filter(gender == 1)
+mean(fem$ext1)
+male = fffk %>% dplyr::filter(gender == 0)
+nrow(male)
+```
+
+# Growth Models with Mean Scores on the 40-item Original Measure
+```{r}
+INT.ext <- "ext_g_int =~ 1*ext1 + 1*ext2 + 1*ext3
+# homoskedastic residual structure
+ext1 ~~res*ext1
+ext2 ~~res*ext2
+ext3 ~~res*ext3"
+
+## Estimate model
+INT.ext.fit <- growth(model = INT.ext, data = fem, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INT.ext.fit, fit.measures = T, standardized = T)
+
+
+LIN.ext <- "
+ext_g_int =~ 1*ext1 + 1*ext2 + 1*ext3
+ext_g_slp =~ 0*ext1 + 1*ext2 + 2*ext3
+
+# homoskedastic residual structure
+ext1 ~~res*ext1
+ext2 ~~res*ext2
+ext3 ~~res*ext3" 
+
+LIN.ext.fit <- growth(model = LIN.ext, data = fem, missing = "ML")
+summary(LIN.ext.fit, fit.measures = T, standardized = T)
+
+lavTestLRT(LIN.ext.fit, INT.ext.fit) # Adopt the linear model
+
+P.ext <- "
+ext_g_int =~ 1*ext1 + 1*ext2 + 1*ext3
+ext_g_slp1 =~ 0*ext1 + 1*ext2 + 1*ext3
+ext_g_slp2 =~ 0*ext1 + 0*ext2 + 1*ext3
+
+# homoskedastic residual structure
+ext1 ~~res*ext1
+ext2 ~~res*ext2
+ext3 ~~res*ext3
+ext_g_slp1 ~~ 0*ext_g_slp2
+ext_g_slp1 ~~ res1*ext_g_slp1  
+ext_g_slp2 ~~ res1*ext_g_slp2
+" 
+
+P.ext.fit <- growth(model = P.ext, data = fem, missing = "ML")
+summary(P.ext.fit, fit.measures = T, standardized = T)
+
+
+# Summary Table Girls Extraversion
+table_fit <- matrix(NA, nrow = 3,  ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INT.ext.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LIN.ext.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(P.ext.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+### Boys ### 
+
+## Intercept-only model
+## Specify model 
+INTb.ext <- "
+ext_b_int =~ 1*ext1 + 1*ext2 + 1*ext3
+# homoskedastic residual structure
+ext1 ~~res*ext1
+ext2 ~~res*ext2
+ext3 ~~res*ext3"
+
+## Estimate model
+INTb.ext.fit <- growth(model = INTb.ext, data = male, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INTb.ext.fit, fit.measures = T, standardized = T)
+
+
+LINb.ext <- "
+ext_b_int =~ 1*ext1 + 1*ext2 + 1*ext3
+ext_b_slp =~ 0*ext1 + 1*ext2 + 2*ext3
+
+# homoskedastic residual structure
+ext1 ~~res*ext1
+ext2 ~~res*ext2
+ext3 ~~res*ext3
+" 
+
+LINb.ext.fit <- growth(model = LINb.ext, data = male, missing = "ML")
+summary(LINb.ext.fit, fit.measures = T, standardized = T)
+
+
+Pb.ext <- "
+ext_b_int =~ 1*ext1 + 1*ext2 + 1*ext3
+ext_b_slp1 =~ 0*ext1 + 1*ext2 + 1*ext3
+ext_b_slp2 =~ 0*ext1 + 0*ext2 + 1*ext3
+
+# homoskedastic residual structure
+ext1 ~~res*ext1
+ext2 ~~res*ext2
+ext3 ~~res*ext3
+ext_b_slp1 ~~ 0*ext_b_slp2
+ext_b_slp1 ~~ res1*ext_b_slp1
+ext_b_slp2 ~~ res1*ext_b_slp2
+" 
+
+Pb.ext.fit <- growth(model = Pb.ext, data = male, missing = "ML")
+summary(Pb.ext.fit, fit.measures = T, standardized = T)
+
+
+
+# Summary Table Boys Extraversion
+table_fit <- matrix(NA, nrow = 3,  ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INTb.ext.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LINb.ext.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(Pb.ext.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+
+
+
+######## Emotional Stability ###########
+### Girls ####
+
+## Intercept-only model
+INT.sta <- "
+sta_g_int =~ 1*sta1 + 1*sta2 + 1*sta3
+# homoskedastic residual structure
+sta1 ~~res*sta1
+sta2 ~~res*sta2
+sta3 ~~res*sta3"
+
+## Estimate model
+INT.sta.fit <- growth(model = INT.sta, data = fem, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INT.sta.fit, fit.measures = T, standardized = T)
+
+
+LIN.sta <- "
+sta_g_int =~ 1*sta1 + 1*sta2 + 1*sta3
+sta_g_slp =~ 0*sta1 + 1*sta2 + 2*sta3
+
+# homoskedastic residual structure
+sta1 ~~res*sta1
+sta2 ~~res*sta2
+sta3 ~~res*sta3" 
+
+LIN.sta.fit <- growth(model = LIN.sta, data = fem, missing = "ML")
+summary(LIN.sta.fit, fit.measures = T, standardized = T)
+
+lavTestLRT(LIN.sta.fit, INT.sta.fit) # Adopt the linear model
+
+P.sta <- "
+sta_g_int =~ 1*sta1 + 1*sta2 + 1*sta3
+sta_g_slp1 =~ 0*sta1 + 1*sta2 + 1*sta3
+sta_g_slp2 =~ 0*sta1 + 0*sta2 + 1*sta3
+
+# homoskedastic residual structure
+sta1 ~~res*sta1
+sta2 ~~res*sta2
+sta3 ~~res*sta3
+sta_g_slp1 ~~ 0*sta_g_slp2
+sta_g_slp1 ~~ res1*sta_g_slp1  # is the variance in slope the same? 
+sta_g_slp2 ~~ res1*sta_g_slp2
+" 
+
+P.sta.fit <- growth(model = P.sta, data = fem, missing = "ML")
+summary(P.sta.fit, fit.measures = T, standardized = T)
+
+
+# Summary Table Girls Emotional Stability
+table_fit <- matrix(NA, nrow = 3,  ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INT.sta.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LIN.sta.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(P.sta.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+
+
+### Boys ### 
+## Intercept-only model
+## Specify model 
+INTb.sta <- "
+sta_b_int =~ 1*sta1 + 1*sta2 + 1*sta3
+# homoskedastic residual structure
+sta1 ~~res*sta1
+sta2 ~~res*sta2
+sta3 ~~res*sta3"
+
+## Estimate model
+INTb.sta.fit <- growth(model = INTb.sta, data = male, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INTb.sta.fit, fit.measures = T, standardized = T)
+
+
+LINb.sta <- "
+sta_b_int =~ 1*sta1 + 1*sta2 + 1*sta3
+sta_b_slp =~ 0*sta1 + 1*sta2 + 2*sta3
+
+# homoskedastic residual structure
+sta1 ~~res*sta1
+sta2 ~~res*sta2
+sta3 ~~res*sta3" 
+
+LINb.sta.fit <- growth(model = LINb.sta, data = male, missing = "ML")
+summary(LINb.sta.fit, fit.measures = T, standardized = T)
+
+
+Pb.sta <- "
+sta_b_int =~ 1*sta1 + 1*sta2 + 1*sta3
+sta_b_slp1 =~ 0*sta1 + 1*sta2 + 1*sta3
+sta_b_slp2 =~ 0*sta1 + 0*sta2 + 1*sta3
+
+# homoskedastic residual structure
+sta1 ~~res*sta1
+sta2 ~~res*sta2
+sta3 ~~res*sta3
+sta_b_slp1 ~~ 0*sta_b_slp2
+sta_b_slp1 ~~ res1*sta_b_slp1
+sta_b_slp2 ~~ res1*sta_b_slp2
+" 
+
+Pb.sta.fit <- growth(model = Pb.sta, data = male, missing = "ML")
+summary(Pb.sta.fit, fit.measures = T, standardized = T)
+
+
+
+# Summary Table Boys Emotional Stability
+table_fit <- matrix(NA, nrow = 3,  ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INTb.sta.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LINb.sta.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(Pb.sta.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+
+######## Agreeableness ###########
+### Girls ####
+
+## Intercept-only model
+INT.agr <- "
+agr_g_int =~ 1*agr1 + 1*agr2 + 1*agr3
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3"
+
+## Estimate model
+INT.agr.fit <- growth(model = INT.agr, data = fem, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INT.agr.fit, fit.measures = T, standardized = T)
+
+
+LIN.agr <- "
+agr_g_int =~ 1*agr1 + 1*agr2 + 1*agr3
+agr_g_slp =~ 0*agr1 + 1*agr2 + 2*agr3
+
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3" 
+
+LIN.agr.fit <- growth(model = LIN.agr, data = fem, missing = "ML")
+summary(LIN.agr.fit, fit.measures = T, standardized = T)
+
+lavTestLRT(LIN.agr.fit, INT.agr.fit) # Adopt the linear model
+
+P.agr <- "
+agr_g_int =~ 1*agr1 + 1*agr2 + 1*agr3
+agr_g_slp1 =~ 0*agr1 + 1*agr2 + 1*agr3
+agr_g_slp2 =~ 0*agr1 + 0*agr2 + 1*agr3
+
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3
+agr_g_slp1 ~~ 0*agr_g_slp2
+agr_g_slp1 ~~ res1*agr_g_slp1  # is the variance in slope the same? 
+agr_g_slp2 ~~ res1*agr_g_slp2
+" 
+
+P.agr.fit <- growth(model = P.agr, data = fem, missing = "ML")
+summary(P.agr.fit, fit.measures = T, standardized = T)
+
+
+# Summary Table Girls Agreeableness
+table_fit <- matrix(NA, nrow = 3,  ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INT.agr.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LIN.agr.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(P.agr.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+
+### Boys ### 
+## Intercept-only model
+## Specify model 
+INTb.agr <- "
+agr_b_int =~ 1*agr1 + 1*agr2 + 1*agr3
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3"
+
+## Estimate model
+INTb.agr.fit <- growth(model = INTb.agr, data = male, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INTb.agr.fit, fit.measures = T, standardized = T)
+
+
+LINb.agr <- "
+agr_b_int =~ 1*agr1 + 1*agr2 + 1*agr3
+agr_b_slp =~ 0*agr1 + 1*agr2 + 2*agr3
+
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3" 
+
+LINb.agr.fit <- growth(model = LINb.agr, data = male, missing = "ML")
+summary(LINb.agr.fit, fit.measures = T, standardized = T)
+
+
+Pb.agr <- "
+agr_b_int =~ 1*agr1 + 1*agr2 + 1*agr3
+agr_b_slp1 =~ 0*agr1 + 1*agr2 + 1*agr3
+agr_b_slp2 =~ 0*agr1 + 0*agr2 + 1*agr3
+
+# homoskedastic residual structure
+agr1 ~~res*agr1
+agr2 ~~res*agr2
+agr3 ~~res*agr3
+agr_b_slp1 ~~ 0*agr_b_slp2
+agr_b_slp1 ~~ res1*agr_b_slp1
+agr_b_slp2 ~~ res1*agr_b_slp2
+" 
+
+Pb.agr.fit <- growth(model = Pb.agr, data = male, missing = "ML")
+summary(Pb.agr.fit, fit.measures = T, standardized = T)
+
+
+
+# Summary Table Boys Agreeableness
+table_fit <- matrix(NA, nrow = 3,  ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INTb.agr.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LINb.agr.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(Pb.agr.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+# Strong evidence for non-linear growth, such that the slope is initially negative and then positive. 
+# Both slopes are significant
+
+
+
+######## Openness to Experience ###########
+## Intercept-only model
+INT.ope <- "
+ope_g_int =~ 1*ope1 + 1*ope2 + 1*ope3
+# homoskedastic residual structure
+ope1 ~~res*ope1
+ope2 ~~res*ope2
+ope3 ~~res*ope3"
+
+## Estimate model
+INT.ope.fit <- growth(model = INT.ope, data = fem, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INT.ope.fit, fit.measures = T, standardized = T)
+
+
+LIN.ope <- "
+ope_g_int =~ 1*ope1 + 1*ope2 + 1*ope3
+ope_g_slp =~ 0*ope1 + 1*ope2 + 2*ope3
+
+# homoskedastic residual structure
+ope1 ~~res*ope1
+ope2 ~~res*ope2
+ope3 ~~res*ope3" 
+
+LIN.ope.fit <- growth(model = LIN.ope, data = fem, missing = "ML")
+summary(LIN.ope.fit, fit.measures = T, standardized = T)
+
+lavTestLRT(LIN.ope.fit, INT.ope.fit) # Adopt the linear model
+
+P.ope <- "
+ope_g_int =~ 1*ope1 + 1*ope2 + 1*ope3
+ope_g_slp1 =~ 0*ope1 + 1*ope2 + 1*ope3
+ope_g_slp2 =~ 0*ope1 + 0*ope2 + 1*ope3
+
+# homoskedastic residual structure
+ope1 ~~res*ope1
+ope2 ~~res*ope2
+ope3 ~~res*ope3
+ope_g_slp1 ~~ 0*ope_g_slp2
+ope_g_slp1 ~~ res1*ope_g_slp1  # is the variance in slope the same? 
+ope_g_slp2 ~~ res1*ope_g_slp2
+" 
+
+P.ope.fit <- growth(model = P.ope, data = fem, missing = "ML")
+summary(P.ope.fit, fit.measures = T, standardized = T)
+
+
+# Summary Table Girls Openness to Experience
+table_fit <- matrix(NA, nrow = 3,  ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INT.ope.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LIN.ope.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(P.ope.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+
+### Boys ### 
+## Intercept-only model
+## Specify model 
+INTb.ope <- "
+ope_b_int =~ 1*ope1 + 1*ope2 + 1*ope3
+# homoskedastic residual structure
+ope1 ~~res*ope1
+ope2 ~~res*ope2
+ope3 ~~res*ope3"
+
+## Estimate model
+INTb.ope.fit <- growth(model = INTb.ope, data = male, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INTb.ope.fit, fit.measures = T, standardized = T)
+
+
+LINb.ope <- "
+ope_b_int =~ 1*ope1 + 1*ope2 + 1*ope3
+ope_b_slp =~ 0*ope1 + 1*ope2 + 2*ope3
+
+# homoskedastic residual structure
+ope1 ~~res*ope1
+ope2 ~~res*ope2
+ope3 ~~res*ope3" 
+
+LINb.ope.fit <- growth(model = LINb.ope, data = male, missing = "ML")
+summary(LINb.ope.fit, fit.measures = T, standardized = T)
+
+
+Pb.ope <- "
+ope_b_int =~ 1*ope1 + 1*ope2 + 1*ope3
+ope_b_slp1 =~ 0*ope1 + 1*ope2 + 1*ope3
+ope_b_slp2 =~ 0*ope1 + 0*ope2 + 1*ope3
+
+# homoskedastic residual structure
+ope1 ~~res*ope1
+ope2 ~~res*ope2
+ope3 ~~res*ope3
+ope_b_slp1 ~~ 0*ope_b_slp2
+ope_b_slp1 ~~ res1*ope_b_slp1
+ope_b_slp2 ~~ res1*ope_b_slp2
+" 
+
+Pb.ope.fit <- growth(model = Pb.ope, data = male, missing = "ML")
+summary(Pb.ope.fit, fit.measures = T, standardized = T)
+
+
+
+# Summary Table Boys Openness to Experience
+table_fit <- matrix(NA, nrow = 3,  ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INTb.ope.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LINb.ope.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(Pb.ope.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+4276.60 - 4236
+# Favors piecewise. Slope goes from negative to positive
+
+######## Conscientiousness ###########
+## Intercept-only model
+INT.con <- "
+con_g_int =~ 1*con1 + 1*con2 + 1*con3
+# homoskedastic residual structure
+con1 ~~res*con1
+con2 ~~res*con2
+con3 ~~res*con3"
+
+## Estimate model
+INT.con.fit <- growth(model = INT.con, data = fem, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INT.con.fit, fit.measures = T, standardized = T)
+
+
+LIN.con <- "
+con_g_int =~ 1*con1 + 1*con2 + 1*con3
+con_g_slp =~ 0*con1 + 1*con2 + 2*con3
+
+# homoskedastic residual structure
+con1 ~~res*con1
+con2 ~~res*con2
+con3 ~~res*con3" 
+
+LIN.con.fit <- growth(model = LIN.con, data = fem, missing = "ML")
+summary(LIN.con.fit, fit.measures = T, standardized = T)
+
+lavTestLRT(LIN.con.fit, INT.con.fit) # Adopt the linear model
+
+P.con <- "
+con_g_int =~ 1*con1 + 1*con2 + 1*con3
+con_g_slp1 =~ 0*con1 + 1*con2 + 1*con3
+con_g_slp2 =~ 0*con1 + 0*con2 + 1*con3
+
+# homoskedastic residual structure
+con1 ~~res*con1
+con2 ~~res*con2
+con3 ~~res*con3
+con_g_slp1 ~~ 0*con_g_slp2
+con_g_slp1 ~~ res1*con_g_slp1  # is the variance in slcon the same? 
+con_g_slp2 ~~ res1*con_g_slp2
+" 
+
+P.con.fit <- growth(model = P.con, data = fem, missing = "ML")
+summary(P.con.fit, fit.measures = T, standardized = T)
+
+
+# Summary Table Girls Conscientiousness
+table_fit <- matrix(NA, nrow = 3,  ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INT.con.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LIN.con.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(P.con.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+
+# Intercept-only model
+INT.con <- "
+con_g_int =~ 1*con1 + 1*con2 + 1*con3
+# homoskedastic residual structure
+con1 ~~res*con1
+con2 ~~res*con2
+con3 ~~res*con3"
+
+## Estimate model
+INTb.con.fit <- growth(model = INT.con, data = male, missing = "ML")
+
+## Examine fit indices and standardized solution
+summary(INTb.con.fit, fit.measures = T, standardized = T)
+
+
+LIN.con <- "
+con_g_int =~ 1*con1 + 1*con2 + 1*con3
+con_g_slp =~ 0*con1 + 1*con2 + 2*con3
+
+# homoskedastic residual structure
+con1 ~~res*con1
+con2 ~~res*con2
+con3 ~~res*con3" 
+
+LINb.con.fit <- growth(model = LIN.con, data = male, missing = "ML")
+summary(LINb.con.fit, fit.measures = T, standardized = T)
+
+lavTestLRT(LINb.con.fit, INTb.con.fit) # Adopt the linear model
+
+P.con <- "
+con_g_int =~ 1*con1 + 1*con2 + 1*con3
+con_g_slp1 =~ 0*con1 + 1*con2 + 1*con3
+con_g_slp2 =~ 0*con1 + 0*con2 + 1*con3
+
+# homoskedastic residual structure
+con1 ~~res*con1
+con2 ~~res*con2
+con3 ~~res*con3
+con_g_slp1 ~~ 0*con_g_slp2
+con_g_slp1 ~~ res1*con_g_slp1  # is the variance in slcon the same? 
+con_g_slp2 ~~ res1*con_g_slp2
+" 
+
+Pb.con.fit <- growth(model = P.con, data = male, missing = "ML")
+summary(Pb.con.fit, fit.measures = T, standardized = T)
+
+
+# Summary Table Boys Conscientiousness
+table_fit <- matrix(NA, nrow = 3,  ncol = 7)
+colnames(table_fit) = c("Model", "X2", "df", "CFI", "RMSEA", "SRMR", "AIC" )
+table_fit[1, ] <- c("Intercept Only", round(fitmeasures(INTb.con.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[2, ] <- c("Linear Growth", round(fitmeasures(LINb.con.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+table_fit[3, ] <- c("Piecewise Growth", round(fitmeasures(Pb.con.fit, c("chisq", "df", "cfi", "rmsea", "srmr", "aic" )),3))
+kable(table_fit)
+```
+
